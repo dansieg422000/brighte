@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+birghte:
+  path: /brighte/delivery
+  controller: App\Controller\BrighteController::delivery
