@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Delivery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @method Delivery|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Delivery[]    findAll()
  * @method Delivery[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DeliveryRepository extends ServiceEntityRepository
+class DeliveryRepository extends EntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
@@ -47,4 +48,9 @@ class DeliveryRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function parseDelivery() {
+        echo 'Delivery Repository';
+        exit;
+    }
 }
