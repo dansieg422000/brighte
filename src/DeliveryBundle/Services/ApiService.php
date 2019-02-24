@@ -8,15 +8,17 @@ class ApiService
 {
     private $curlMethod = 'POST';
 
+    private $clientApiUrl = '';
+
     public function validateEnterprise($token, $key, $enterpriseDelivery)
     {
 
-        $url = $this->generateUrl('client_api');
+        $this->clientApiUrl = $this->getParameters('client_api');
 
         $isValidate = $this->validateToken($token, $key);
 
         if ($isValidate) {
-            $this->clientApi($this->curlMethod, $url, $enterpriseDelivery);
+            $this->clientApi($this->curlMethod, $this->clientApiUrl, $enterpriseDelivery);
         } else {
             return new JsonResponse(json_encode(array('error'=>'Access denied!')));
         }

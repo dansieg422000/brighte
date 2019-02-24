@@ -2,3 +2,4 @@
 parameters:
     token: 'AbCd192837'
     key: 'secret_key'
+    clientApi: 'dummy_url.au'
