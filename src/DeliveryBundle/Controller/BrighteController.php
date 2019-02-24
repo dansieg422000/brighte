@@ -3,6 +3,7 @@
 namespace App\DeliveryBundle\Controller;
 
 use App\DeliveryBundle\Services\DeliveryService;
+use Symfony\Component\HttpFoundation\Response;
 
 class BrighteController
 {
@@ -20,7 +21,7 @@ class BrighteController
     {
         $this->processDelivery();
 
-        exit;
+        return new Response();
     }
 
     private function processDelivery()
