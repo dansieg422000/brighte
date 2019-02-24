@@ -35,7 +35,6 @@ class DeliveryService
     public function processDeliveryData()
     {
         $data = $this->deliveryRepository->loadDelivery();
-
         $this->deliveryData = json_decode($data, TRUE);
 
         foreach ($this->deliveryData as $kDeliveries => $vDeliveries) {
@@ -77,6 +76,4 @@ class DeliveryService
         print_r($personalDelivery);
         echo '</pre>';
     }
-
-
 }
