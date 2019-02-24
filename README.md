@@ -28,7 +28,9 @@ Assuming PHP is installed. The code is written in Symfony framework.
     It is a good practice to keep the Controller clean and put the complex queries inside the Repository.
     [DeliverRepository]
     
- Note: The code is fully functional. You can find the 3rd party api logic in the ApiService.php   
+ Note: The code is fully functional. You can find the 3rd party api logic in the ApiService.php. Since no instruction
+    provided for personalDelivery, I just output the data. For the email campaign, it will show the message 
+    "Email campaign is successful".
     
     
     
