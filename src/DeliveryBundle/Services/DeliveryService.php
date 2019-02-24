@@ -54,6 +54,9 @@ class DeliveryService
      */
     private function processEnterpriseDelivery($enterpriseDelivery)
     {
+        $this->token = $this->getParameters('token');
+        $this->key = $this->getParameters('key');
+
         $this->apiService->validateEnterprise($this->token, $this->key, $enterpriseDelivery);
     }
 
