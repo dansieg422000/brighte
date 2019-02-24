@@ -4,4 +4,4 @@
 
 birghte:
   path: /brighte/delivery
-  controller: App\Controller\BrighteController::delivery
+  controller: App\DeliveryBundle\Controller\BrighteController::delivery

@@ -1,39 +1,33 @@
 <?php
-namespace App\Controller;
 
-use App\Entity\DeliveryEntity;
-use Doctrine\ORM\EntityManager;
-use App\Repository\DeliveryRepository;
-use Doctrine\ORM\ServiceEntityRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+namespace App\DeliveryBundle\Controller;
 
+use App\DeliveryBundle\Services\DeliveryService;
 
-
-class BrighteController extends Controller
+class BrighteController
 {
-    public function __construct()
+
+    protected $deliveryService;
+
+    protected $deliveryData;
+
+    public function __construct(DeliveryService $deliveryService)
     {
-
+        $this->deliveryService = $deliveryService;
     }
-
 
     public function delivery()
     {
-//        DeliveryRepository::parseDelivery();
+        $this->processDelivery();
 
-
-//        echo '<pre>';
-//        var_dump($em);
-//        echo '</pre>';
-//        exit;
-//        echo 'here';
-//        exit;
-        $em = $this->getDoctrine()->getManager();
-        $em
-            ->getRepository('DeliveryRepository')
-            ->parseDelivery();
         exit;
-        $this->getDoctrine()->getRepository('DeliveryRepository')->parseDelivery();
+    }
+
+    private function processDelivery()
+    {
+        $this->deliveryData = $this->deliveryService->processDeliveryData();
+
+        return $this->deliveryData;
     }
 
 }

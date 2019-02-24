@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\DeliveryBundle\Repository;
 
-use App\Entity\Delivery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Doctrine\ORM\EntityRepository;
+use App\DeliveryBundle\Entity\Delivery;
 
 /**
  * @method Delivery|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,44 +12,25 @@ use Doctrine\ORM\EntityRepository;
  * @method Delivery[]    findAll()
  * @method Delivery[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DeliveryRepository extends EntityRepository
+class DeliveryRepository extends ServiceEntityRepository
 {
+    private $jsonFile = '../src/DeliveryBundle/Repository/delivery.json';
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Delivery::class);
     }
 
-    // /**
-    //  * @return Delivery[] Returns an array of Delivery objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function loadDelivery()
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->parseDeliveryData();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Delivery
+
+    private function parseDeliveryData()
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+        $deliveryJson = file_get_contents($this->jsonFile);
 
-    public function parseDelivery() {
-        echo 'Delivery Repository';
-        exit;
+        return $deliveryJson;
     }
 }
