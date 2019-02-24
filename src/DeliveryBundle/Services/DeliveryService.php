@@ -1,12 +1,19 @@
 <?php
 namespace App\DeliveryBundle\Services;
 
+use App\DeliveryBundle\Services\ApiService;
 use App\DeliveryBundle\Services\MarketingService;
 use App\DeliveryBundle\Repository\DeliveryRepository;
 
 class DeliveryService
 {
+    private $key = '';
+
+    private $token = '';
+
     private $deliveryData;
+
+    private $apiService;
 
     private $marketingService;
 
@@ -16,8 +23,11 @@ class DeliveryService
 
     private $enterpriseDelivery = 'enterpriseDelivery';
 
-    public function __construct(MarketingService $marketingService, DeliveryRepository $deliveryRepository)
+    public function __construct(ApiService $apiValidationController,
+                                MarketingService $marketingService,
+                                DeliveryRepository $deliveryRepository)
     {
+        $this->apiService = $apiValidationController;
         $this->marketingService = $marketingService;
         $this->deliveryRepository = $deliveryRepository;
     }
@@ -28,15 +38,14 @@ class DeliveryService
 
         $this->deliveryData = json_decode($data, TRUE);
 
-        foreach ($this->deliveryData as $deliveries) {
-            foreach ($deliveries as $delivery) {
-                if ($deliveries['deliveryType'] == $this->enterpriseDelivery) {
-                    $this->processEnterpriseDelivery($delivery);
-                } else if ($deliveries['source'] == $this->emailCampaign) {
-                    $this->processEmailCampaign($delivery);
-                } else {
-                    $this->processPersonalDelivery($delivery);
-                }
+        foreach ($this->deliveryData as $kDeliveries => $vDeliveries) {
+
+            if ($this->deliveryData[$kDeliveries]['deliveryType'] == $this->enterpriseDelivery) {
+                $this->processEnterpriseDelivery($this->deliveryData[$kDeliveries]);
+            } elseif ($this->deliveryData[$kDeliveries]['source'] == $this->emailCampaign) {
+                $this->processEmailCampaign($this->deliveryData[$kDeliveries]);
+            } else {
+                $this->processPersonalDelivery($this->deliveryData[$kDeliveries]);
             }
         }
     }
@@ -46,10 +55,7 @@ class DeliveryService
      */
     private function processEnterpriseDelivery($enterpriseDelivery)
     {
-        echo '<pre>';
-        print_r($enterpriseDelivery);
-        echo '</pre>';
-
+        $this->apiService->validateEnterprise($this->token, $this->key, $enterpriseDelivery);
     }
 
     /**

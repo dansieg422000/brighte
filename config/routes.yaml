@@ -5,3 +5,8 @@
 birghte:
   path: /brighte/delivery
   controller: App\DeliveryBundle\Controller\BrighteController::delivery
+
+#3rd Party Api
+client_api:
+  path: /clientUrl/
+  controller:
