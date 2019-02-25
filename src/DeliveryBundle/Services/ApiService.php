@@ -6,12 +6,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiService
 {
+    private $curlMethod = 'POST';
+
+    private $clientApiUrl = '';
+
     public function validateEnterprise($token, $key, $enterpriseDelivery)
     {
+
+        $this->clientApiUrl = $this->getParameters('client_api');
+
         $isValidate = $this->validateToken($token, $key);
 
         if ($isValidate) {
-            $this->clientApi($enterpriseDelivery);
+            $this->clientApi($this->curlMethod, $this->clientApiUrl, $enterpriseDelivery);
         } else {
             return new JsonResponse(json_encode(array('error'=>'Access denied!')));
         }
@@ -53,10 +60,36 @@ class ApiService
         return $result;
     }
 
-    private function clientApi($enterpriseDelivery)
+    function clientApi($method, $url, $enterpriseDelivery)
     {
-        $url = $this->generateUrl('client_api', ['enterpriseDelivery' => $enterpriseDelivery]);
-        return $this->redirectToRoute($url);
+        $curl = curl_init();
+
+        switch ($method)
+        {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+
+                if ($enterpriseDelivery)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $enterpriseDelivery);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_PUT, 1);
+                break;
+            default:
+                if ($enterpriseDelivery)
+                    $url = sprintf("%s?%s", $url, http_build_query($enterpriseDelivery));
+        }
+
+        // Optional Authentication:
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($curl);
+
+        curl_close($curl);
+
+        return $result;
     }
 
 

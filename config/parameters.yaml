@@ -1,0 +1,5 @@
+# This file is auto-generated during the composer install
+parameters:
+    token: 'AbCd192837'
+    key: 'secret_key'
+    clientApi: 'dummy_url.au'
