@@ -4,8 +4,9 @@ namespace App\DeliveryBundle\Controller;
 
 use App\DeliveryBundle\Services\DeliveryService;
 use Symfony\Component\HttpFoundation\Response;
+use  Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class BrighteController
+class BrighteController extends AbstractController
 {
 
     protected $deliveryService;
@@ -19,9 +20,14 @@ class BrighteController
 
     public function delivery()
     {
-        $this->processDelivery();
 
-        return new Response();
+
+//        $this->processDelivery();
+//
+//        return new Response();
+        return $this->render(
+            'index.html.twig');
+
     }
 
     private function processDelivery()

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <div name="registrationForm" ng-controller="MyController">
+        [[ basicInfo.title ]]
+        <form name="theForm">
+            <div>
+                First Name: <input name="first_name" ng-model="firstName">
+            </div>
+            <div>
+                Last Name: <input name="last_name" ng-model="lastName">
+            </div>
+            <div>
+                Select a Car:
+                {#<select ng-change="onCarSelect()" ng-options="y.brand for (x, y) in cars">#}
+                <select ng-change="onCarSelect()" ng-options="y.brand for (x, y) in cars">
+                    <option y.brand for (x, y) in cars>
+
+                    </option>
+                </select>
+            </div>
+            <input type="submit" value="Submit" name="submit" ng-click="clickMe()"><br>
+        </form>
+    </div>
+{% endblock %}
+
+
