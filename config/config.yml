@@ -1,0 +1,12 @@
+imports:
+  - { resource: services.yml }
+
+parameters:
+  # a hack - should be configurable under jms_serializer, but the property_naming.id
+  # doesn't seem to be taken into account at all.
+  jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
+framework:
+  # ...
+  serializer:
+    enabled: true

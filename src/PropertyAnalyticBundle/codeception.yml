@@ -1,0 +1,47 @@
+namespace: Archistar\PropertyAnalyticBundle\Tests
+actor: Tester
+paths:
+    tests: Tests
+    log: Tests/_log
+    data: Tests/_data
+    support: Tests/_support
+    envs: Tests/_envs
+settings:
+    bootstrap: _bootstrap.php
+    suite_class: \PHPUnit_Framework_TestSuite
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+params:
+    - "./../../../.env"
+modules:
+    config:
+        FixtureHelper:
+            seed: 0
+        Symfony2:
+            var_path: '../../../app'
+            app_path: '../../../app'
+            environment: '%SYMFONY_ENV%'
+            part: SERVICES
+        Doctrine2:
+            depends: Symfony2
+        Doctrine2Extended:
+            cleanup: true
+            depends: Symfony2
+        WebDriver:
+            url: '%WEBDRIVER_URL%'
+            host: '%WEBDRIVER_HOST%'
+            browser: '%WEBDRIVER_BROWSER%'
+coverage:
+    enabled: true
+    include:
+        - ./*.php
+    exclude:
+        - Controller/*
+        - Repository/*
+        - Entity/*
+        - DTO/*
+        - Tests/*
+        - PerformanceBundle.php

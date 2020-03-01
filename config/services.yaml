@@ -11,18 +11,56 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\DeliveryBundle\:
-        resource: '../src/DeliveryBundle/*'
-        exclude: '../src/DeliveryBundle/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\DeliveryBundle\Controller\:
-        resource: '../src/DeliveryBundle/Controller'
+#    # makes classes in src/ available to be used as services
+#    # this creates a service per class whose id is the fully-qualified class name
+    App\PropertyAnalyticBundle\:
+        resource: '../src/PropertyAnalyticBundle/*'
+        exclude: '../src/PropertyAnalyticBundle/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+##
+##    # controllers are imported separately to make sure services can be injected
+##    # as action arguments even if you don't extend any base controller class
+    App\PropertyAnalyticBundle\Controller\:
+        resource: '../src/PropertyAnalyticBundle/Controller'
         tags: ['controller.service_arguments']
 
-    App\DeliveryBundle\Repository\:
-        resource: '../src/DeliveryBundle/Repository'
+    App\PropertyAnalyticBundle\Repository\:
+        resource: '../src/PropertyAnalyticBundle/Repository'
         tags: ['repository.service_arguments']
+
+    archistar.service.paginator:
+        class: App\PropertyAnalyticBundle\Services\Pagination\Paginator
+        autowire: true
+        public: true
+
+    archistar.service.form:
+        class: App\PropertyAnalyticBundle\Services\FormService
+        autowire: true
+        public: true
+
+    archistar.service.property_analytic:
+        class: App\PropertyAnalyticBundle\Services\PropertyAnalyticService
+        autowire: true
+        public: true
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@archistar.service.paginator"
+
+    archistar.service.serializer:
+        class: App\PropertyAnalyticBundle\Services\SerializerService
+        public: true
+        arguments:
+            - "@archistar.denormalizer"
+
+    archistar.denormalizer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            0:
+                - "@archistar.denormalizer.property_analytic"
+
+    archistar.denormalizer.property_analytic:
+        class: App\PropertyAnalyticBundle\Denormalizer\PropertyAnalyticDenormalizer
+        arguments:
+            - "@archistar.service.data_transition"
+
+    archistar.service.data_transition:
+        class: App\PropertyAnalyticBundle\Services\DataTransitionService
